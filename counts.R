@@ -8,6 +8,8 @@ option_list = list(
         help="Design dataframe: bam_filename, group_id columns", metavar="character"),
     make_option(c("-a", "--annotation"), type="character", default=NULL,
         help="Path to annotation", metavar="character"),
+    make_option(c("-p", "--paired"), default=FALSE,
+        help="Paired-end"),
     make_option(c("-c", "--cores"), type="integer", default=16,
         help="Number of cores")
     )
@@ -38,7 +40,7 @@ bam_filenames <- design$bam_filename
 counts_table <- list()
 for (bam in bam_filenames)
 {
-    fc <- featureCounts(bam, annot.ext=opt$annotation, isGTFAnnotationFile=TRUE, nthreads=opt$cores)
+    fc <- featureCounts(bam, annot.ext=opt$annotation, isGTFAnnotationFile=TRUE, nthreads=opt$cores, isPairedEnd = opt$paired)
     counts_table[[bam]]<-fc$counts
 }
 
